@@ -1,6 +1,6 @@
 {
     'name': 'PowerPOS SUNMI Cloud - OpenAPI Printer & Receipt Engine',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Point of Sale',
     'summary': 'SUNMI Cloud OpenAPI v2 HMAC-SHA256 client, idempotent print job engine, and Philippine BIR receipt templates',
     'description': """

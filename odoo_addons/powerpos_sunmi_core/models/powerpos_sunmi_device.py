@@ -512,3 +512,38 @@ class PowerPosSunmiDevice(models.Model):
             'printer_operational_status': self.printer_operational_status,
             'last_heartbeat': fields.Datetime.to_string(self.last_heartbeat) if self.last_heartbeat else False,
         }
+
+    @api.model
+    def _load_pos_data_domain(self, data):
+        """Odoo 20 pos.load.mixin domain hook restricting loaded printers to the active POS config."""
+        config_records = data.get('pos.config', {}).get('data', [])
+        config_ids = [c['id'] for c in config_records if 'id' in c]
+        if config_ids:
+            return [('pos_config_id', 'in', config_ids), ('active', '=', True)]
+        return [('active', '=', True)]
+
+    @api.model
+    def _load_pos_data_fields(self, config_id):
+        """Odoo 20 pos.load.mixin field allowlist — strictly excludes device_secret and auth_token_hash."""
+        return [
+            'id',
+            'device_code',
+            'name',
+            'serial_number',
+            'device_category',
+            'device_model',
+            'connection_type',
+            'ip_address',
+            'printer_port',
+            'paper_width',
+            'capability_classification',
+            'cash_drawer_supported',
+            'physical_status_supported',
+            'physical_status_verified',
+            'pin3_open_level',
+            'device_status',
+            'printer_operational_status',
+            'last_heartbeat',
+            'pos_config_id',
+            'branch_id',
+        ]

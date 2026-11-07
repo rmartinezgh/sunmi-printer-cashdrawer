@@ -1,6 +1,7 @@
-# PowerPOS — Odoo 18 / 20 Addons Installation & Configuration Guide
+# PowerPOS — Odoo 20 Addons Installation, Upgrade & Configuration Guide
 
-**Document ID:** `PPOS-INST-ODOO-001`
+**Document ID:** `PPOS-INST-ODOO-001`  
+**Target Version:** `20.0.1.0.0`
 
 ---
 

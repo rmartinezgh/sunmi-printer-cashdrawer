@@ -427,3 +427,36 @@ class PowerPosCashDrawerDevice(models.Model):
             'polling_interval_ms': self.polling_interval_ms,
             'device_status': self.device_status,
         }
+
+    @api.model
+    def _load_pos_data_domain(self, data):
+        """Odoo 20 pos.load.mixin domain hook restricting loaded cash drawers to the active POS config."""
+        config_records = data.get('pos.config', {}).get('data', [])
+        config_ids = [c['id'] for c in config_records if 'id' in c]
+        if config_ids:
+            return [('pos_config_id', 'in', config_ids), ('active', '=', True)]
+        return [('active', '=', True)]
+
+    @api.model
+    def _load_pos_data_fields(self, config_id):
+        """Odoo 20 pos.load.mixin field allowlist for POS frontend."""
+        return [
+            'id',
+            'drawer_code',
+            'name',
+            'drawer_model',
+            'printer_device_id',
+            'pos_config_id',
+            'branch_id',
+            'sensor_type',
+            'monitoring_method',
+            'physical_status_capability',
+            'physical_state',
+            'last_verified_state',
+            'last_sensor_timestamp',
+            'open_since_timestamp',
+            'current_open_duration_seconds',
+            'alert_prolonged_open_seconds',
+            'polling_interval_ms',
+            'device_status',
+        ]

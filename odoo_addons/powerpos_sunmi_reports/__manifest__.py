@@ -1,6 +1,6 @@
 {
     'name': 'PowerPOS SUNMI Reports - Cash Drawer & Hardware Analytics Suite',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Point of Sale',
     'summary': '8 Enterprise Reports with PDF QWeb, CSV, and XLSX exports for Cash Drawer & SUNMI Printer auditing',
     'description': """

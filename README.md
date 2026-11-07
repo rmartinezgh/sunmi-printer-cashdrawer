@@ -1,6 +1,6 @@
 # PowerPOS — SUNMI Printer and Intelligent Cash Drawer Management System
 
-Production-grade hardware integration platform connecting **SUNMI Cloud Printers**, **SUNMI Android POS Terminals**, **Standalone ESC/POS Printers**, and **Intelligent Cash Drawers** to **Odoo 18 / 20 POS** and **Native Android POS** applications across multi-store, multi-branch, and multi-company deployments.
+Production-grade hardware integration platform connecting **SUNMI Cloud Printers**, **SUNMI Android POS Terminals**, **Standalone ESC/POS Printers**, and **Intelligent Cash Drawers** to **Odoo 20 POS** (`20.0.1.0.0`) and **Native Android POS** applications across multi-store, multi-branch, and multi-company deployments.
 
 ---
 

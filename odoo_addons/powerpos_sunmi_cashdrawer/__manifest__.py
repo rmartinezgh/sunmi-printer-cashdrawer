@@ -1,6 +1,6 @@
 {
     'name': 'PowerPOS SUNMI Cash Drawer - Physical State Monitor & Policy Engine',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Point of Sale',
     'summary': 'Cash drawer device registry, opening authorization policy engine, and truthful physical state transition monitor',
     'description': """

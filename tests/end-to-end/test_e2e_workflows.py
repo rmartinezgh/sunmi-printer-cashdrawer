@@ -37,6 +37,16 @@ class TestEndToEndPlatformIntegrity(unittest.TestCase):
             self.assertTrue(init_path.is_file(), f"Missing __init__.py in {addon}")
             manifest_data = ast.literal_eval(manifest_path.read_text(encoding="utf-8"))
             self.assertIsInstance(manifest_data, dict)
+            self.assertEqual(
+                manifest_data.get("version"),
+                "20.0.1.0.0",
+                f"Addon {addon} must target Odoo 20 (20.0.1.0.0)",
+            )
+            migration_script = addon_path / "migrations" / "20.0.1.0.0" / "post-migrate.py"
+            self.assertTrue(
+                migration_script.is_file(),
+                f"Missing Odoo 20 post-migration script in {addon}",
+            )
             self.assertIn("name", manifest_data)
             self.assertIn("depends", manifest_data)
             self.assertIn("data", manifest_data)

@@ -1,6 +1,6 @@
 {
     'name': 'PowerPOS SUNMI Audit - Immutable Cryptographic Drawer Event Ledger',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Point of Sale',
     'summary': 'Append-only SHA-256 hash-chained cash drawer audit trail and HMAC-authenticated hardware REST API',
     'description': """

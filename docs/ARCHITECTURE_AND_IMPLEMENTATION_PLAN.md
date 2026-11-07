@@ -2,7 +2,7 @@
 
 **Document ID:** `PPOS-ARCH-001`  
 **Version:** `1.0.0`  
-**Target Odoo Compatibility:** Odoo 18.0 / 20.0 (OWL 2 POS Architecture, Multi-Company, Multi-Branch)
+**Target Odoo Compatibility:** Odoo 20.0 (`20.0.1.0.0`, OWL 2 POS Architecture, `pos.load.mixin`, Multi-Company, Multi-Branch)
 
 ---
 

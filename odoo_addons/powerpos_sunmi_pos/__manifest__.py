@@ -1,6 +1,6 @@
 {
     'name': 'PowerPOS SUNMI POS - OWL 2 Real-Time Hardware & Cash Drawer UI',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Point of Sale',
     'summary': 'Touch-friendly OWL 2 POS navbar widget, live open duration timer, Android Bridge integration, and offline event queue',
     'description': """

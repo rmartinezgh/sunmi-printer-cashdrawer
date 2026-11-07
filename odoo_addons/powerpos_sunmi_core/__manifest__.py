@@ -1,6 +1,6 @@
 {
     'name': 'PowerPOS SUNMI Core - Device Management & Security Foundation',
-    'version': '18.0.1.0.0',
+    'version': '20.0.1.0.0',
     'category': 'Point of Sale',
     'summary': 'Multi-branch device registry, RBAC security foundation, and hardware capability matrix for SUNMI POS',
     'description': """

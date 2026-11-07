@@ -25,6 +25,15 @@ class PosSession(models.Model):
         models_to_load = super()._pos_ui_models_to_load()
         return models_to_load
 
+    @api.model
+    def _load_pos_data_models(self, config_id):
+        """Odoo 20 pos.load.mixin hook registering sanitized PowerPOS hardware models in POS session load_data."""
+        data_models = super()._load_pos_data_models(config_id) if hasattr(super(), '_load_pos_data_models') else []
+        for model_name in ('powerpos.sunmi.device', 'powerpos.cashdrawer.device'):
+            if model_name not in data_models:
+                data_models.append(model_name)
+        return data_models
+
     def powerpos_get_hardware_status(self):
         """
         RPC called by POS OWL frontend to fetch sanitized printer, cash drawer,
