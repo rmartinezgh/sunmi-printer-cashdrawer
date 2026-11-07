@@ -94,11 +94,6 @@ class PowerPosCashDrawerAuthorization(models.Model):
     )
     requested_at = fields.Datetime(string='Requested At', default=fields.Datetime.now, required=True, index=True)
     expires_at = fields.Datetime(string='Expires At', required=True, index=True)
-    matched_event_id = fields.Many2one(
-        'powerpos.cashdrawer.event',
-        string='Matched Audit Event',
-        readonly=True,
-    )
 
     _sql_constraints = [
         ('auth_uuid_uniq', 'unique(auth_uuid)', 'Authorization UUID must be globally unique!'),

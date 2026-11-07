@@ -362,10 +362,10 @@ class PowerPosCashDrawerDevice(models.Model):
                 cashier_id=cashier_id or (self.current_cashier_id.id if self.current_cashier_id else False),
             )
             if matched_auth and created_event:
-                matched_auth.sudo().write({
-                    'state': 'matched_physical_open',
-                    'matched_event_id': created_event.id,
-                })
+                auth_write_vals = {'state': 'matched_physical_open'}
+                if 'matched_event_id' in matched_auth._fields:
+                    auth_write_vals['matched_event_id'] = created_event.id
+                matched_auth.sudo().write(auth_write_vals)
 
         return created_event
 

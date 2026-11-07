@@ -12,3 +12,4 @@ access_powerpos_device_capability_supervisor,powerpos.device.capability.supervis
 access_powerpos_device_capability_manager,powerpos.device.capability.manager,powerpos.device.capability,group_powerpos_store_manager,crud,"[('device_id.company_id', 'in', company_ids)]"
 access_powerpos_device_capability_sysadmin,powerpos.device.capability.sysadmin,powerpos.device.capability,group_powerpos_sysadmin,crud,"[('device_id.company_id', 'in', company_ids)]"
 access_powerpos_calibration_wizard_supervisor,powerpos.hardware.calibration.wizard.supervisor,powerpos.hardware.calibration.wizard,group_powerpos_supervisor,crud,
+

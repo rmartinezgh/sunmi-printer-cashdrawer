@@ -2,3 +2,4 @@ id,name,model_id,group_id/id,operation,domain
 access_powerpos_report_wizard_supervisor,powerpos.hardware.report.wizard.supervisor,powerpos.hardware.report.wizard,powerpos_sunmi_core.group_powerpos_supervisor,crud,
 access_powerpos_report_wizard_manager,powerpos.hardware.report.wizard.manager,powerpos.hardware.report.wizard,powerpos_sunmi_core.group_powerpos_store_manager,crud,
 access_powerpos_report_wizard_sysadmin,powerpos.hardware.report.wizard.sysadmin,powerpos.hardware.report.wizard,powerpos_sunmi_core.group_powerpos_sysadmin,crud,
+

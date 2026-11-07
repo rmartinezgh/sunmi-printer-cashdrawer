@@ -327,3 +327,14 @@ class PowerPosCashDrawerEvent(models.Model):
             'total_events_checked': total_checked,
             'broken_event_uuids': broken_events,
         }
+
+
+class PowerPosCashDrawerAuthorizationAudit(models.Model):
+    _inherit = 'powerpos.cashdrawer.authorization'
+
+    matched_event_id = fields.Many2one(
+        'powerpos.cashdrawer.event',
+        string='Matched Audit Event',
+        readonly=True,
+    )
+

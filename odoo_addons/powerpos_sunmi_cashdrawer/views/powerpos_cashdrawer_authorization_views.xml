@@ -51,7 +51,6 @@
                             <field name="pos_order_id"/>
                             <field name="requested_at"/>
                             <field name="expires_at"/>
-                            <field name="matched_event_id"/>
                         </group>
                     </group>
                 </sheet>

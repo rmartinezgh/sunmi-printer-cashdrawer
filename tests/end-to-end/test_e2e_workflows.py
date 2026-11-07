@@ -108,6 +108,53 @@ class TestEndToEndPlatformIntegrity(unittest.TestCase):
                 f"Invalid Odoo 20 ir.access.csv header in {access_file}",
             )
 
+    def test_no_forward_comodel_references_across_module_dependency_graph(self) -> None:
+        import re
+
+        addons_root = ROOT_DIR / "odoo_addons"
+        manifests = {}
+        defined_models_by_addon = {}
+
+        for manifest_path in addons_root.glob("*/__manifest__.py"):
+            addon_name = manifest_path.parent.name
+            manifests[addon_name] = ast.literal_eval(manifest_path.read_text(encoding="utf-8"))
+            defined_models = set()
+            for py_file in (manifest_path.parent / "models").glob("*.py"):
+                text = py_file.read_text(encoding="utf-8")
+                for m in re.finditer(r"_name\s*=\s*['\"](powerpos\.[^'\"]+)['\"]", text):
+                    defined_models.add(m.group(1))
+            defined_models_by_addon[addon_name] = defined_models
+
+        def get_reachable_addons(addon: str, visited=None) -> set:
+            if visited is None:
+                visited = set()
+            if addon in visited or addon not in manifests:
+                return visited
+            visited.add(addon)
+            for dep in manifests[addon].get("depends", []):
+                if dep in manifests:
+                    get_reachable_addons(dep, visited)
+            return visited
+
+        for addon_name, manifest in manifests.items():
+            reachable_addons = get_reachable_addons(addon_name)
+            available_models = set()
+            for r_addon in reachable_addons:
+                available_models |= defined_models_by_addon.get(r_addon, set())
+
+            for py_file in (addons_root / addon_name / "models").glob("*.py"):
+                text = py_file.read_text(encoding="utf-8")
+                for m in re.finditer(
+                    r"fields\.(?:Many2one|One2many|Many2many)\(\s*(?:comodel_name\s*=\s*)?['\"](powerpos\.[^'\"]+)['\"]",
+                    text,
+                ):
+                    comodel = m.group(1)
+                    self.assertIn(
+                        comodel,
+                        available_models,
+                        f"Addon '{addon_name}' ({py_file.name}) references comodel '{comodel}' which is not defined in '{addon_name}' or its dependencies {sorted(reachable_addons)}",
+                    )
+
     def test_no_sunmi_app_key_leaked_in_pos_frontend_assets(self) -> None:
         pos_static = ROOT_DIR / "odoo_addons" / "powerpos_sunmi_pos" / "static"
         if pos_static.is_dir():

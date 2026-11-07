@@ -119,4 +119,15 @@
         <field name="res_model">powerpos.cashdrawer.event</field>
         <field name="view_mode">list,form</field>
     </record>
+
+    <record id="view_powerpos_cashdrawer_authorization_form_audit_inherit" model="ir.ui.view">
+        <field name="name">powerpos.cashdrawer.authorization.form.audit.inherit</field>
+        <field name="model">powerpos.cashdrawer.authorization</field>
+        <field name="inherit_id" ref="powerpos_sunmi_cashdrawer.view_powerpos_cashdrawer_authorization_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='expires_at']" position="after">
+                <field name="matched_event_id"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

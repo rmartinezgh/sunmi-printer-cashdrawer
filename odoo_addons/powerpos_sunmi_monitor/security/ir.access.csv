@@ -11,3 +11,4 @@ access_hardware_dashboard_cashier,powerpos.hardware.dashboard.cashier,powerpos.h
 access_hardware_dashboard_supervisor,powerpos.hardware.dashboard.supervisor,powerpos.hardware.dashboard,powerpos_sunmi_core.group_powerpos_supervisor,cru,"[('company_id', 'in', company_ids)]"
 access_hardware_dashboard_manager,powerpos.hardware.dashboard.manager,powerpos.hardware.dashboard,powerpos_sunmi_core.group_powerpos_store_manager,crud,"[('company_id', 'in', company_ids)]"
 access_hardware_dashboard_sysadmin,powerpos.hardware.dashboard.sysadmin,powerpos.hardware.dashboard,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+

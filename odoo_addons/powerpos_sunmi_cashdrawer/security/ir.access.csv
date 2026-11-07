@@ -11,3 +11,4 @@ access_cashdrawer_auth_cashier,powerpos.cashdrawer.authorization.cashier,powerpo
 access_cashdrawer_auth_supervisor,powerpos.cashdrawer.authorization.supervisor,powerpos.cashdrawer.authorization,powerpos_sunmi_core.group_powerpos_supervisor,cru,"[('company_id', 'in', company_ids)]"
 access_cashdrawer_auth_manager,powerpos.cashdrawer.authorization.manager,powerpos.cashdrawer.authorization,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
 access_cashdrawer_auth_sysadmin,powerpos.cashdrawer.authorization.sysadmin,powerpos.cashdrawer.authorization,powerpos_sunmi_core.group_powerpos_sysadmin,cru,"[('company_id', 'in', company_ids)]"
+
