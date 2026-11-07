@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cashdrawer_event_cashier,powerpos.cashdrawer.event.cashier,model_powerpos_cashdrawer_event,powerpos_sunmi_core.group_powerpos_cashier,1,0,1,0
+access_cashdrawer_event_supervisor,powerpos.cashdrawer.event.supervisor,model_powerpos_cashdrawer_event,powerpos_sunmi_core.group_powerpos_supervisor,1,1,1,0
+access_cashdrawer_event_manager,powerpos.cashdrawer.event.manager,model_powerpos_cashdrawer_event,powerpos_sunmi_core.group_powerpos_store_manager,1,1,1,0
+access_cashdrawer_event_sysadmin,powerpos.cashdrawer.event.sysadmin,model_powerpos_cashdrawer_event,powerpos_sunmi_core.group_powerpos_sysadmin,1,1,1,0

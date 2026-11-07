@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="rule_default_prolonged_open_30s" model="powerpos.monitoring.rule">
+            <field name="name">Default: Drawer Left Open &gt; 30 Seconds</field>
+            <field name="sequence">10</field>
+            <field name="rule_type">prolonged_open</field>
+            <field name="prolonged_open_preset">30</field>
+            <field name="threshold_seconds">30</field>
+            <field name="severity">warning</field>
+            <field name="notify_pos_screen" eval="True"/>
+            <field name="notify_supervisor_channel" eval="True"/>
+        </record>
+
+        <record id="rule_default_unmatched_opening" model="powerpos.monitoring.rule">
+            <field name="name">Default: Unmatched Physical Drawer Opening (Key / Tamper)</field>
+            <field name="sequence">20</field>
+            <field name="rule_type">unmatched_opening</field>
+            <field name="severity">critical</field>
+            <field name="notify_pos_screen" eval="True"/>
+            <field name="notify_supervisor_channel" eval="True"/>
+        </record>
+
+        <record id="rule_default_excessive_manual_open" model="powerpos.monitoring.rule">
+            <field name="name">Default: Excessive Manual / No-Sale Openings (&gt;= 5 per Shift)</field>
+            <field name="sequence">30</field>
+            <field name="rule_type">excessive_manual_open</field>
+            <field name="max_manual_openings_per_shift">5</field>
+            <field name="severity">warning</field>
+            <field name="notify_pos_screen" eval="True"/>
+            <field name="notify_supervisor_channel" eval="True"/>
+        </record>
+
+        <record id="rule_default_outside_session_open" model="powerpos.monitoring.rule">
+            <field name="name">Default: Drawer Opened Outside Active POS Session</field>
+            <field name="sequence">40</field>
+            <field name="rule_type">outside_session_open</field>
+            <field name="severity">critical</field>
+            <field name="notify_pos_screen" eval="True"/>
+            <field name="notify_supervisor_channel" eval="True"/>
+        </record>
+
+        <record id="rule_default_hardware_offline" model="powerpos.monitoring.rule">
+            <field name="name">Default: Printer or Drawer Sensor Offline / Fault</field>
+            <field name="sequence">50</field>
+            <field name="rule_type">hardware_offline_or_error</field>
+            <field name="severity">warning</field>
+            <field name="notify_pos_screen" eval="True"/>
+            <field name="notify_supervisor_channel" eval="True"/>
+        </record>
+
+        <record id="default_enterprise_hardware_dashboard" model="powerpos.hardware.dashboard">
+            <field name="name">Enterprise Hardware &amp; Cash Drawer Live Overview</field>
+        </record>
+    </data>
+</odoo>

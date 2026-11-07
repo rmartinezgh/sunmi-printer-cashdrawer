@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_hardware_report_wizard_form" model="ir.ui.view">
+        <field name="name">powerpos.hardware.report.wizard.form</field>
+        <field name="model">powerpos.hardware.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="PowerPOS Hardware &amp; Cash Drawer Reports">
+                <sheet>
+                    <group>
+                        <group string="Report Selection &amp; Date Range">
+                            <field name="report_type"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group string="Scope Filters">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="branch_id"/>
+                            <field name="cash_drawer_id"/>
+                            <field name="cashier_id"/>
+                        </group>
+                    </group>
+                    <group string="Generated Export File" invisible="not export_file">
+                        <field name="export_filename" invisible="1"/>
+                        <field name="export_file" filename="export_filename"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_print_pdf" string="Print PDF Report" type="object" class="btn-primary"/>
+                    <button name="action_export_xlsx" string="Export XLSX" type="object" class="btn-success"/>
+                    <button name="action_export_csv" string="Export CSV" type="object" class="btn-secondary"/>
+                    <button string="Close" class="btn-link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- 8 Dedicated Window Actions for each of the 8 Required Reports -->
+    <record id="action_report_01_daily_drawer_activity" model="ir.actions.act_window">
+        <field name="name">1. Daily Drawer Activity Report</field>
+        <field name="res_model">powerpos.hardware.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'daily_drawer_activity'}</field>
+    </record>
+
+    <record id="action_report_02_cashier_drawer_activity" model="ir.actions.act_window">
+        <field name="name">2. Cashier Drawer Activity Report</field>
+        <field name="res_model">powerpos.hardware.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'cashier_drawer_activity'}</field>
+    </record>
+
+    <record id="action_report_03_drawer_opening_duration" model="ir.actions.act_window">
+        <field name="name">3. Drawer Opening Duration Report</field>
+        <field name="res_model">powerpos.hardware.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'drawer_opening_duration'}</field>
+    </record>
+
+    <record id="action_report_04_unmatched_drawer_opening" model="ir.actions.act_window">
+        <field name="name">4. Unmatched Drawer Opening Report</field>
+        <field name="res_model">powerpos.hardware.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'unmatched_drawer_opening'}</field>
+    </record>
+
+    <record id="action_report_05_supervisor_override" model="ir.actions.act_window">
+        <field name="name">5. Supervisor Override Report</field>
+        <field name="res_model">powerpos.hardware.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'supervisor_override'}</field>
+    </record>
+
+    <record id="action_report_06_printer_performance" model="ir.actions.act_window">
+        <field name="name">6. Printer Performance Report</field>
+        <field name="res_model">powerpos.hardware.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'printer_performance'}</field>
+    </record>
+
+    <record id="action_report_07_device_connectivity" model="ir.actions.act_window">
+        <field name="name">7. Device Connectivity Report</field>
+        <field name="res_model">powerpos.hardware.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'device_connectivity'}</field>
+    </record>
+
+    <record id="action_report_08_cash_drawer_exception" model="ir.actions.act_window">
+        <field name="name">8. Cash Drawer Exception Report</field>
+        <field name="res_model">powerpos.hardware.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_report_type': 'cash_drawer_exception'}</field>
+    </record>
+
+    <!-- Attach all 8 Reports under PowerPOS -> Hardware Management -> 10. Reports -->
+    <menuitem id="menu_powerpos_rep_01_daily_activity"
+              name="1. Daily Drawer Activity Report"
+              parent="powerpos_sunmi_monitor.menu_powerpos_hw_10_reports"
+              action="action_report_01_daily_drawer_activity"
+              sequence="10"/>
+
+    <menuitem id="menu_powerpos_rep_02_cashier_activity"
+              name="2. Cashier Drawer Activity Report"
+              parent="powerpos_sunmi_monitor.menu_powerpos_hw_10_reports"
+              action="action_report_02_cashier_drawer_activity"
+              sequence="20"/>
+
+    <menuitem id="menu_powerpos_rep_03_opening_duration"
+              name="3. Drawer Opening Duration Report"
+              parent="powerpos_sunmi_monitor.menu_powerpos_hw_10_reports"
+              action="action_report_03_drawer_opening_duration"
+              sequence="30"/>
+
+    <menuitem id="menu_powerpos_rep_04_unmatched_opening"
+              name="4. Unmatched Drawer Opening Report"
+              parent="powerpos_sunmi_monitor.menu_powerpos_hw_10_reports"
+              action="action_report_04_unmatched_drawer_opening"
+              sequence="40"/>
+
+    <menuitem id="menu_powerpos_rep_05_supervisor_override"
+              name="5. Supervisor Override Report"
+              parent="powerpos_sunmi_monitor.menu_powerpos_hw_10_reports"
+              action="action_report_05_supervisor_override"
+              sequence="50"/>
+
+    <menuitem id="menu_powerpos_rep_06_printer_performance"
+              name="6. Printer Performance Report"
+              parent="powerpos_sunmi_monitor.menu_powerpos_hw_10_reports"
+              action="action_report_06_printer_performance"
+              sequence="60"/>
+
+    <menuitem id="menu_powerpos_rep_07_device_connectivity"
+              name="7. Device Connectivity Report"
+              parent="powerpos_sunmi_monitor.menu_powerpos_hw_10_reports"
+              action="action_report_07_device_connectivity"
+              sequence="70"/>
+
+    <menuitem id="menu_powerpos_rep_08_drawer_exception"
+              name="8. Cash Drawer Exception Report"
+              parent="powerpos_sunmi_monitor.menu_powerpos_hw_10_reports"
+              action="action_report_08_cash_drawer_exception"
+              sequence="80"/>
+</odoo>

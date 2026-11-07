@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_powerpos_report_wizard_supervisor,powerpos.hardware.report.wizard.supervisor,model_powerpos_hardware_report_wizard,powerpos_sunmi_core.group_powerpos_supervisor,1,1,1,1
+access_powerpos_report_wizard_manager,powerpos.hardware.report.wizard.manager,model_powerpos_hardware_report_wizard,powerpos_sunmi_core.group_powerpos_store_manager,1,1,1,1
+access_powerpos_report_wizard_sysadmin,powerpos.hardware.report.wizard.sysadmin,model_powerpos_hardware_report_wizard,powerpos_sunmi_core.group_powerpos_sysadmin,1,1,1,1

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_sunmi_receipt_template_list" model="ir.ui.view">
+        <field name="name">powerpos.sunmi.receipt.template.list</field>
+        <field name="model">powerpos.sunmi.receipt.template</field>
+        <field name="arch" type="xml">
+            <list string="Receipt Templates">
+                <field name="name"/>
+                <field name="branch_id"/>
+                <field name="paper_width"/>
+                <field name="tax_regime"/>
+                <field name="tin"/>
+                <field name="min_number"/>
+                <field name="ptu_number"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_powerpos_sunmi_receipt_template_form" model="ir.ui.view">
+        <field name="name">powerpos.sunmi.receipt.template.form</field>
+        <field name="model">powerpos.sunmi.receipt.template</field>
+        <field name="arch" type="xml">
+            <form string="Receipt Template">
+                <sheet>
+                    <group>
+                        <group string="Template Scope">
+                            <field name="name"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="branch_id"/>
+                            <field name="paper_width"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Merchant Header &amp; Footer (Store Manager Editable)">
+                            <field name="merchant_header_line1"/>
+                            <field name="merchant_header_line2"/>
+                            <field name="merchant_contact_line"/>
+                            <field name="merchant_footer_message"/>
+                            <field name="print_barcode"/>
+                        </group>
+                    </group>
+                    <group string="Philippine BIR Mandatory Fiscal Fields (System Admin Only)">
+                        <group>
+                            <field name="tax_regime"/>
+                            <field name="tin"/>
+                            <field name="branch_code"/>
+                            <field name="serial_no"/>
+                        </group>
+                        <group>
+                            <field name="min_number"/>
+                            <field name="ptu_number"/>
+                            <field name="ptu_date_issued"/>
+                            <field name="accreditation_disclaimer"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_powerpos_sunmi_receipt_template" model="ir.actions.act_window">
+        <field name="name">BIR Receipt Templates</field>
+        <field name="res_model">powerpos.sunmi.receipt.template</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

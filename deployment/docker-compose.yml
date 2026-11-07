@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: powerpos-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    volumes:
+      - powerpos_pgdata:/var/lib/postgresql/data
+    secrets:
+      - postgres_password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  odoo:
+    image: odoo:18.0
+    container_name: powerpos-odoo
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    volumes:
+      - ../odoo_addons:/mnt/extra-addons/powerpos:ro
+      - ./odoo.conf:/etc/odoo/odoo.conf:ro
+      - powerpos_filestore:/var/lib/odoo
+    secrets:
+      - postgres_password
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: powerpos-nginx
+    restart: unless-stopped
+    depends_on:
+      - odoo
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  powerpos_pgdata:
+  powerpos_filestore:
+
+secrets:
+  postgres_password:
+    file: ./secrets/postgres_password.txt
+

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="default_bir_receipt_template_80mm" model="powerpos.sunmi.receipt.template">
+            <field name="name">Standard Philippine BIR 80mm Official Receipt Template</field>
+            <field name="paper_width">80</field>
+            <field name="tin">000-123-456-00000</field>
+            <field name="tax_regime">vat</field>
+            <field name="branch_code">00001</field>
+            <field name="min_number">MIN-2026-000000001</field>
+            <field name="ptu_number">FP012026-000-0000001-00001</field>
+            <field name="ptu_date_issued">2026-01-15</field>
+            <field name="serial_no">SUNMI-T2-PH0001</field>
+            <field name="merchant_header_line1">POWERPOS RETAIL PHILIPPINES INC.</field>
+            <field name="merchant_header_line2">Ayala Avenue, Makati City, Metro Manila</field>
+            <field name="merchant_contact_line">Tel: (02) 8888-9999</field>
+            <field name="accreditation_disclaimer">THIS SERVES AS YOUR OFFICIAL SALES INVOICE.
+BIR ACCREDITATION NO.: 048-000000000-000001
+VALID UNTIL: 2031-01-15</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_hardware_calibration_wizard_form" model="ir.ui.view">
+        <field name="name">powerpos.hardware.calibration.wizard.form</field>
+        <field name="model">powerpos.hardware.calibration.wizard</field>
+        <field name="arch" type="xml">
+            <form string="3-Step Cash Drawer Sensor Calibration">
+                <header>
+                    <field name="step" widget="statusbar" statusbar_visible="step1_closed,step2_pulse_open,step3_reclose,completed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="device_id"/>
+                        <field name="detected_polarity" readonly="1"/>
+                    </group>
+                    <group string="Step 1: Verify Drawer is Physically Closed" invisible="step != 'step1_closed'">
+                        <p class="text-muted" colspan="2">
+                            Ensure the cash drawer is physically latched closed, then record the baseline RJ11 Pin-3 level reported by the Android Bridge.
+                        </p>
+                        <field name="step1_pin3_level"/>
+                    </group>
+                    <group string="Step 2: Send Kick Pulse &amp; Observe Open State" invisible="step != 'step2_pulse_open'">
+                        <p class="text-muted" colspan="2">
+                            Trigger the 24V RJ11 kick pulse so the drawer springs open, then verify the Pin-3 signal reading while physically open.
+                        </p>
+                        <field name="step2_pin3_level"/>
+                    </group>
+                    <group string="Step 3: Physically Re-Close Drawer" invisible="step != 'step3_reclose'">
+                        <p class="text-muted" colspan="2">
+                            Push the cash drawer shut until it latches and confirm Pin-3 returns to its closed baseline level.
+                        </p>
+                        <field name="step3_pin3_level"/>
+                    </group>
+                    <group string="Calibration Result" invisible="step != 'completed'">
+                        <field name="diagnostic_summary" readonly="1"/>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_next_step" string="Next / Verify Step" type="object"
+                            class="btn-primary" invisible="step == 'completed'"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

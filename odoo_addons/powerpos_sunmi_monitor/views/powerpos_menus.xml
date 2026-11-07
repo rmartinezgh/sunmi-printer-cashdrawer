@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top-Level PowerPOS Menu -->
+    <menuitem id="menu_powerpos_root"
+              name="PowerPOS"
+              sequence="45"
+              groups="powerpos_sunmi_core.group_powerpos_cashier"/>
+
+    <!-- Hardware Management Section -->
+    <menuitem id="menu_powerpos_hardware_management"
+              name="Hardware Management"
+              parent="menu_powerpos_root"
+              sequence="10"
+              groups="powerpos_sunmi_core.group_powerpos_cashier"/>
+
+    <!-- All 12 Required Submenus under PowerPOS -> Hardware Management -->
+    <menuitem id="menu_powerpos_hw_01_overview"
+              name="1. Overview"
+              parent="menu_powerpos_hardware_management"
+              action="action_powerpos_hardware_overview"
+              sequence="10"/>
+
+    <menuitem id="menu_powerpos_hw_02_registered_devices"
+              name="2. Registered Devices"
+              parent="menu_powerpos_hardware_management"
+              action="powerpos_sunmi_core.action_powerpos_sunmi_device"
+              sequence="20"/>
+
+    <menuitem id="menu_powerpos_hw_03_sunmi_printers"
+              name="3. SUNMI Printers"
+              parent="menu_powerpos_hardware_management"
+              action="action_powerpos_sunmi_printers_only"
+              sequence="30"/>
+
+    <menuitem id="menu_powerpos_hw_04_cash_drawers"
+              name="4. Cash Drawers"
+              parent="menu_powerpos_hardware_management"
+              action="powerpos_sunmi_cashdrawer.action_powerpos_cashdrawer_device"
+              sequence="40"/>
+
+    <menuitem id="menu_powerpos_hw_05_pos_terminals"
+              name="5. POS Terminals"
+              parent="menu_powerpos_hardware_management"
+              action="action_powerpos_pos_terminals"
+              sequence="50"/>
+
+    <menuitem id="menu_powerpos_hw_06_device_monitoring"
+              name="6. Device Monitoring"
+              parent="menu_powerpos_hardware_management"
+              action="action_powerpos_device_monitoring"
+              sequence="60"/>
+
+    <menuitem id="menu_powerpos_hw_07_drawer_activity"
+              name="7. Drawer Activity"
+              parent="menu_powerpos_hardware_management"
+              action="powerpos_sunmi_audit.action_powerpos_cashdrawer_event"
+              sequence="70"/>
+
+    <menuitem id="menu_powerpos_hw_08_security_alerts"
+              name="8. Security Alerts"
+              parent="menu_powerpos_hardware_management"
+              action="action_powerpos_security_alert"
+              sequence="80"/>
+
+    <menuitem id="menu_powerpos_hw_09_printing_history"
+              name="9. Printing History"
+              parent="menu_powerpos_hardware_management"
+              action="powerpos_sunmi_cloud.action_powerpos_sunmi_print_job"
+              sequence="90"/>
+
+    <menuitem id="menu_powerpos_hw_10_reports"
+              name="10. Reports"
+              parent="menu_powerpos_hardware_management"
+              sequence="100"
+              groups="powerpos_sunmi_core.group_powerpos_supervisor"/>
+
+    <menuitem id="menu_powerpos_hw_11_configuration"
+              name="11. Configuration"
+              parent="menu_powerpos_hardware_management"
+              sequence="110"
+              groups="powerpos_sunmi_core.group_powerpos_store_manager"/>
+
+    <menuitem id="menu_powerpos_cfg_branches"
+              name="Store Branches"
+              parent="menu_powerpos_hw_11_configuration"
+              action="powerpos_sunmi_core.action_powerpos_branch"
+              sequence="10"/>
+
+    <menuitem id="menu_powerpos_cfg_drawer_policies"
+              name="Cash Drawer Policies"
+              parent="menu_powerpos_hw_11_configuration"
+              action="powerpos_sunmi_cashdrawer.action_powerpos_cashdrawer_policy"
+              sequence="20"/>
+
+    <menuitem id="menu_powerpos_cfg_monitoring_rules"
+              name="Security Monitoring Rules"
+              parent="menu_powerpos_hw_11_configuration"
+              action="action_powerpos_monitoring_rule"
+              sequence="30"/>
+
+    <menuitem id="menu_powerpos_cfg_receipt_templates"
+              name="BIR Receipt Templates"
+              parent="menu_powerpos_hw_11_configuration"
+              action="powerpos_sunmi_cloud.action_powerpos_sunmi_receipt_template"
+              sequence="40"/>
+
+    <menuitem id="menu_powerpos_cfg_cloud_accounts"
+              name="SUNMI Cloud Accounts"
+              parent="menu_powerpos_hw_11_configuration"
+              action="powerpos_sunmi_cloud.action_powerpos_sunmi_cloud_account"
+              sequence="50"
+              groups="powerpos_sunmi_core.group_powerpos_sysadmin"/>
+
+    <menuitem id="menu_powerpos_hw_12_diagnostics"
+              name="12. Diagnostics"
+              parent="menu_powerpos_hardware_management"
+              action="action_powerpos_diagnostics"
+              sequence="120"/>
+</odoo>

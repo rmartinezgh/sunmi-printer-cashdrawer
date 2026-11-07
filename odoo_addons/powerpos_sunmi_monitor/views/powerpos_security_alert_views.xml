@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_security_alert_search" model="ir.ui.view">
+        <field name="name">powerpos.security.alert.search</field>
+        <field name="model">powerpos.security.alert</field>
+        <field name="arch" type="xml">
+            <search string="Search Security Alerts">
+                <field name="title"/>
+                <field name="alert_uuid"/>
+                <field name="branch_id"/>
+                <field name="cash_drawer_id"/>
+                <field name="cashier_id"/>
+                <filter string="Unresolved Alerts" name="filter_open" domain="[('state', 'in', ('active', 'acknowledged', 'investigating'))]"/>
+                <filter string="Critical Severity" name="filter_critical" domain="[('severity', '=', 'critical')]"/>
+                <separator/>
+                <filter string="Group by Branch" name="group_branch" context="{'group_by': 'branch_id'}"/>
+                <filter string="Group by Category" name="group_category" context="{'group_by': 'alert_category'}"/>
+                <filter string="Group by State" name="group_state" context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_powerpos_security_alert_list" model="ir.ui.view">
+        <field name="name">powerpos.security.alert.list</field>
+        <field name="model">powerpos.security.alert</field>
+        <field name="arch" type="xml">
+            <list string="Security Alerts">
+                <field name="create_date" string="Triggered At"/>
+                <field name="branch_id"/>
+                <field name="pos_config_id"/>
+                <field name="cash_drawer_id"/>
+                <field name="alert_category"/>
+                <field name="severity" widget="badge"
+                       decoration-info="severity == 'info'"
+                       decoration-warning="severity == 'warning'"
+                       decoration-danger="severity == 'critical'"/>
+                <field name="title"/>
+                <field name="cashier_id"/>
+                <field name="state" widget="badge"
+                       decoration-danger="state == 'active'"
+                       decoration-warning="state in ('acknowledged', 'investigating')"
+                       decoration-success="state == 'resolved'"/>
+                <field name="acknowledged_by"/>
+                <field name="resolved_by"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_powerpos_security_alert_form" model="ir.ui.view">
+        <field name="name">powerpos.security.alert.form</field>
+        <field name="model">powerpos.security.alert</field>
+        <field name="arch" type="xml">
+            <form string="Hardware &amp; Cash Drawer Security Alert">
+                <header>
+                    <button name="action_acknowledge" string="Acknowledge Alert" type="object" class="oe_highlight"
+                            invisible="state != 'active'" groups="powerpos_sunmi_core.group_powerpos_supervisor"/>
+                    <button name="action_start_investigation" string="Start Investigation" type="object"
+                            invisible="state not in ('active', 'acknowledged')" groups="powerpos_sunmi_core.group_powerpos_supervisor"/>
+                    <button name="action_resolve_alert" string="Resolve &amp; Close" type="object" class="btn-success"
+                            invisible="state == 'resolved'" groups="powerpos_sunmi_core.group_powerpos_supervisor"/>
+                    <field name="state" widget="statusbar" statusbar_visible="active,acknowledged,investigating,resolved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="title" readonly="1"/></h1>
+                        <h3><field name="alert_uuid" readonly="1"/></h3>
+                    </div>
+                    <group>
+                        <group string="Alert Origin &amp; Context">
+                            <field name="alert_category" readonly="1"/>
+                            <field name="severity" readonly="1"/>
+                            <field name="rule_id" readonly="1"/>
+                            <field name="event_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="branch_id" readonly="1"/>
+                            <field name="pos_config_id" readonly="1"/>
+                            <field name="cash_drawer_id" readonly="1"/>
+                            <field name="printer_id" readonly="1"/>
+                            <field name="pos_session_id" readonly="1"/>
+                            <field name="cashier_id" readonly="1"/>
+                        </group>
+                        <group string="Supervisor Investigation &amp; Resolution">
+                            <field name="description" readonly="1"/>
+                            <field name="acknowledged_by"/>
+                            <field name="acknowledged_at"/>
+                            <field name="investigation_notes"/>
+                            <field name="resolution_summary" placeholder="Required before resolving alert..."/>
+                            <field name="resolved_by"/>
+                            <field name="resolved_at"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_powerpos_security_alert" model="ir.actions.act_window">
+        <field name="name">Security Alerts</field>
+        <field name="res_model">powerpos.security.alert</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_filter_open': 1}</field>
+    </record>
+</odoo>

@@ -1,0 +1,22 @@
+[Unit]
+Description=PowerPOS SUNMI Local ESC/POS Printer & Cash Drawer Status Bridge
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=powerpos
+Group=dialout
+WorkingDirectory=/opt/powerpos/local-bridge
+Environment="POWERPOS_BRIDGE_CONFIG=/etc/powerpos/bridge_config.json"
+ExecStart=/usr/bin/python3 /opt/powerpos/local-bridge/windows-service/powerpos_windows_service.py
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/powerpos /var/log/powerpos
+
+[Install]
+WantedBy=multi-user.target
+

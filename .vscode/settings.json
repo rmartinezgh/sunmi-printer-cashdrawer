@@ -1,0 +1,8 @@
+{
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/local-bridge",
+    "${workspaceFolder}/sensor-gateway",
+    "${workspaceFolder}/odoo_addons"
+  ]
+}
+

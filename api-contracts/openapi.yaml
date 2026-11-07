@@ -1,0 +1,344 @@
+openapi: 3.1.0
+info:
+  title: PowerPOS SUNMI Hardware & Intelligent Cash Drawer API
+  version: 1.0.0
+  description: >
+    Authenticated REST API for PowerPOS hardware registration, printer job
+    submission, cash drawer authorization, physical status telemetry, and
+    immutable audit synchronization across Android POS, Local Printer Bridges,
+    and ESP32 External Sensor Gateways.
+servers:
+  - url: https://pos.powerpos.local
+    description: Central Odoo Backend
+security:
+  - DeviceBearerAuth: []
+    DeviceSignature: []
+
+components:
+  securitySchemes:
+    DeviceBearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: PPOS-Device-Token
+    DeviceSignature:
+      type: apiKey
+      in: header
+      name: X-PowerPOS-Signature
+      description: HMAC-SHA256(timestamp + "." + nonce + "." + raw_body, device_secret)
+
+  schemas:
+    HardwareRegisterRequest:
+      type: object
+      required:
+        - pairing_token
+        - serial_number
+        - device_name
+        - device_category
+        - device_model
+        - connection_type
+      properties:
+        pairing_token:
+          type: string
+        serial_number:
+          type: string
+        device_name:
+          type: string
+        device_category:
+          type: string
+          enum: [android_pos, cloud_printer, local_printer, sensor_gateway]
+        device_model:
+          type: string
+        firmware_version:
+          type: string
+        sdk_version:
+          type: string
+        connection_type:
+          type: string
+          enum: [android_aidl, cloud_openapi, lan_tcp, usb_raw, serial, esp32_gateway]
+        ip_address:
+          type: string
+        printer_port:
+          type: integer
+          default: 9100
+        paper_width_mm:
+          type: integer
+          enum: [58, 80]
+          default: 80
+        declared_capabilities:
+          type: object
+
+    HeartbeatRequest:
+      type: object
+      required:
+        - device_id
+        - device_timestamp
+        - printer_status
+        - drawer_physical_state
+      properties:
+        device_id:
+          type: string
+        device_timestamp:
+          type: string
+          format: date-time
+        printer_status:
+          type: string
+          enum: [online, offline, printing, paper_out, paper_near_end, cover_open, error, unknown]
+        drawer_physical_state:
+          type: string
+          enum: [OPEN, CLOSED, UNKNOWN, UNSUPPORTED, STALE, ERROR, OFFLINE]
+        sensor_source:
+          type: string
+          enum: [android_aidl, escpos_dle_eot, external_sensor, command_only, simulator]
+        sdk_open_counter:
+          type: integer
+          nullable: true
+        firmware_version:
+          type: string
+
+    DrawerAuthorizeRequest:
+      type: object
+      required:
+        - drawer_id
+        - reason
+        - pos_session_id
+      properties:
+        drawer_id:
+          type: string
+        reason:
+          type: string
+          enum:
+            - cash_sale
+            - cash_refund
+            - cash_in
+            - cash_out
+            - starting_cash_count
+            - closing_cash_count
+            - supervisor_no_sale
+            - maintenance_test
+        pos_session_id:
+          type: integer
+        pos_order_ref:
+          type: string
+          nullable: true
+        cashier_employee_id:
+          type: integer
+          nullable: true
+        supervisor_employee_id:
+          type: integer
+          nullable: true
+        supervisor_pin_token:
+          type: string
+          nullable: true
+        idempotency_key:
+          type: string
+          format: uuid
+
+    DrawerEventBatchRequest:
+      type: object
+      required:
+        - device_id
+        - events
+      properties:
+        device_id:
+          type: string
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/DrawerTelemetryEvent'
+
+    DrawerTelemetryEvent:
+      type: object
+      required:
+        - event_uuid
+        - sequence_number
+        - event_type
+        - previous_state
+        - new_state
+        - observed_timestamp
+        - sensor_source
+      properties:
+        event_uuid:
+          type: string
+          format: uuid
+        sequence_number:
+          type: integer
+        event_type:
+          type: string
+          enum:
+            - open_requested
+            - command_accepted
+            - physical_opened
+            - physical_closed
+            - manual_opening
+            - unmatched_opening
+            - opening_timeout
+            - printer_disconnected
+            - sensor_disconnected
+            - communication_restored
+            - hardware_error
+            - supervisor_override
+        previous_state:
+          type: string
+          enum: [OPEN, CLOSED, UNKNOWN, UNSUPPORTED, STALE, ERROR, OFFLINE]
+        new_state:
+          type: string
+          enum: [OPEN, CLOSED, UNKNOWN, UNSUPPORTED, STALE, ERROR, OFFLINE]
+        observed_timestamp:
+          type: string
+          format: date-time
+        authorization_ref:
+          type: string
+          nullable: true
+        opening_reason:
+          type: string
+          nullable: true
+        opening_duration_seconds:
+          type: number
+          nullable: true
+        is_duration_incomplete:
+          type: boolean
+          default: false
+        sensor_source:
+          type: string
+          enum: [android_aidl, escpos_dle_eot, external_sensor, command_only, simulator]
+        sensor_quality:
+          type: string
+          enum: [verified, debounced, noisy, unverified, unavailable]
+        hardware_firmware:
+          type: string
+
+paths:
+  /api/v1/hardware/register:
+    post:
+      summary: Register and pair a hardware device to a company, branch, and POS terminal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HardwareRegisterRequest'
+      responses:
+        '200':
+          description: Device registered and scoped credentials issued
+  /api/v1/hardware/heartbeat:
+    post:
+      summary: Record device heartbeat and current verified physical telemetry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HeartbeatRequest'
+      responses:
+        '200':
+          description: Heartbeat processed
+  /api/v1/printer/status:
+    get:
+      summary: Query live and cached printer connectivity and paper status
+      parameters:
+        - in: query
+          name: device_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Printer status details
+  /api/v1/printer/print:
+    post:
+      summary: Submit an idempotent receipt or report print job
+      responses:
+        '200':
+          description: Print job queued or completed
+  /api/v1/printer/jobs/{id}:
+    get:
+      summary: Query status and reconciliation state of a specific print job
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Print job status
+  /api/v1/drawer/authorize:
+    post:
+      summary: Authorize a cash drawer opening command and issue a signed authorization token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DrawerAuthorizeRequest'
+      responses:
+        '200':
+          description: Authorization granted with correlation reference
+        '403':
+          description: Unauthorized or requires supervisor override
+  /api/v1/drawer/events:
+    post:
+      summary: Synchronize one or more physical cash drawer events (online or offline batch)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DrawerEventBatchRequest'
+      responses:
+        '200':
+          description: Events persisted with deduplication acknowledgement
+  /api/v1/drawer/status:
+    get:
+      summary: Get current verified physical cash drawer state and open duration
+      parameters:
+        - in: query
+          name: drawer_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current drawer state
+  /api/v1/drawer/history:
+    get:
+      summary: Retrieve paginated immutable cash drawer event audit trail
+      parameters:
+        - in: query
+          name: drawer_id
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Audit event list
+  /api/v1/hardware/capabilities:
+    get:
+      summary: Get hardware capability matrix and verification status for a device
+      parameters:
+        - in: query
+          name: device_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Capability matrix
+  /api/v1/hardware/health:
+    get:
+      summary: Get comprehensive hardware & sensor health diagnostics
+      parameters:
+        - in: query
+          name: device_id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Health report
+

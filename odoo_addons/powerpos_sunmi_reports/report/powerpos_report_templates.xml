@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_powerpos_hardware_doc">
+        <t t-call="web.html_container">
+            <t t-foreach="datasets" t-as="ds">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="mb-2"><t t-esc="ds['title']"/></h2>
+                        <p class="text-muted mb-3">
+                            <strong>Period:</strong> <t t-esc="ds['date_from']"/> to <t t-esc="ds['date_to']"/>
+                            | <strong>Branch Scope:</strong> <t t-esc="ds['branch_name']"/>
+                        </p>
+
+                        <!-- Summary KPI Row -->
+                        <div class="row mb-3">
+                            <t t-foreach="ds['summary'].items()" t-as="kpi">
+                                <div class="col-4 mb-2">
+                                    <div class="p-2 border rounded bg-light">
+                                        <span class="text-muted small"><t t-esc="kpi[0]"/>:</span>
+                                        <strong class="ms-1"><t t-esc="kpi[1]"/></strong>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+
+                        <!-- Tabular Data -->
+                        <table class="table table-sm table-bordered table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <t t-foreach="ds['headers']" t-as="hdr">
+                                        <th><t t-esc="hdr"/></th>
+                                    </t>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-if="not ds['rows']">
+                                    <tr>
+                                        <td t-att-colspan="len(ds['headers'])" class="text-center text-muted">
+                                            No hardware or cash drawer records matched the selected filter criteria.
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-foreach="ds['rows']" t-as="row">
+                                    <tr>
+                                        <t t-foreach="row" t-as="cell">
+                                            <td><t t-esc="cell"/></td>
+                                        </t>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

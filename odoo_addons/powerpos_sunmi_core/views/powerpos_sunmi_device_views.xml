@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_sunmi_device_search" model="ir.ui.view">
+        <field name="name">powerpos.sunmi.device.search</field>
+        <field name="model">powerpos.sunmi.device</field>
+        <field name="arch" type="xml">
+            <search string="Search SUNMI Devices">
+                <field name="name"/>
+                <field name="device_code"/>
+                <field name="serial_number"/>
+                <field name="branch_id"/>
+                <field name="pos_config_id"/>
+                <filter string="Online" name="filter_online" domain="[('device_status', '=', 'online')]"/>
+                <filter string="Offline / Error" name="filter_offline" domain="[('device_status', 'in', ('offline', 'error'))]"/>
+                <filter string="Full Physical Monitoring" name="filter_full_monitoring" domain="[('capability_classification', '=', 'full_physical_monitoring')]"/>
+                <separator/>
+                <filter string="Group by Branch" name="group_branch" context="{'group_by': 'branch_id'}"/>
+                <filter string="Group by Model" name="group_model" context="{'group_by': 'device_model'}"/>
+                <filter string="Group by Status" name="group_status" context="{'group_by': 'device_status'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_powerpos_sunmi_device_list" model="ir.ui.view">
+        <field name="name">powerpos.sunmi.device.list</field>
+        <field name="model">powerpos.sunmi.device</field>
+        <field name="arch" type="xml">
+            <list string="Registered SUNMI Devices">
+                <field name="device_code"/>
+                <field name="name"/>
+                <field name="serial_number"/>
+                <field name="branch_id"/>
+                <field name="pos_config_id"/>
+                <field name="device_category"/>
+                <field name="device_model"/>
+                <field name="connection_type"/>
+                <field name="capability_classification"/>
+                <field name="physical_status_verified" widget="boolean"/>
+                <field name="printer_operational_status" widget="badge"
+                       decoration-success="printer_operational_status == 'ready'"
+                       decoration-info="printer_operational_status == 'printing'"
+                       decoration-warning="printer_operational_status in ('paper_near_end', 'unknown')"
+                       decoration-danger="printer_operational_status in ('paper_out', 'cover_open', 'cutter_error', 'overheated', 'offline')"/>
+                <field name="device_status" widget="badge"
+                       decoration-success="device_status == 'online'"
+                       decoration-warning="device_status in ('degraded', 'unpaired')"
+                       decoration-danger="device_status in ('offline', 'error')"/>
+                <field name="last_heartbeat"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_powerpos_sunmi_device_kanban" model="ir.ui.view">
+        <field name="name">powerpos.sunmi.device.kanban</field>
+        <field name="model">powerpos.sunmi.device</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="device_code"/>
+                <field name="name"/>
+                <field name="serial_number"/>
+                <field name="device_model"/>
+                <field name="branch_id"/>
+                <field name="device_status"/>
+                <field name="printer_operational_status"/>
+                <field name="capability_classification"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="o_kanban_record_title"><field name="name"/></strong>
+                            <field name="device_status" widget="label_selection"
+                                   options="{'classes': {'online': 'success', 'offline': 'danger', 'error': 'danger', 'degraded': 'warning', 'unpaired': 'secondary'}}"/>
+                        </div>
+                        <div class="text-muted small">
+                            <span>SN: <field name="serial_number"/></span> | <span><field name="device_model"/></span>
+                        </div>
+                        <div class="mt-2">
+                            <span class="badge text-bg-info"><field name="capability_classification"/></span>
+                        </div>
+                        <div class="mt-1 small">
+                            Branch: <field name="branch_id"/> | Printer: <field name="printer_operational_status"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_powerpos_sunmi_device_form" model="ir.ui.view">
+        <field name="name">powerpos.sunmi.device.form</field>
+        <field name="model">powerpos.sunmi.device</field>
+        <field name="arch" type="xml">
+            <form string="SUNMI Hardware Device">
+                <header>
+                    <button name="action_test_connection" string="Test Connection" type="object" class="oe_highlight"/>
+                    <button name="action_run_capability_discovery" string="Run Capability Discovery" type="object"/>
+                    <button name="action_calibrate_physical_sensor" string="3-Step Sensor Calibration" type="object"
+                            groups="powerpos_sunmi_core.group_powerpos_supervisor"/>
+                    <button name="action_pair_device" string="Pair / Rotate Device Secret" type="object"
+                            groups="powerpos_sunmi_core.group_powerpos_store_manager"/>
+                    <field name="device_status" widget="statusbar" statusbar_visible="unpaired,online,degraded,offline,error"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Counter 1 SUNMI T2 Printer"/></h1>
+                        <h3><field name="device_code" readonly="1"/></h3>
+                    </div>
+                    <group>
+                        <group string="Hardware Identity">
+                            <field name="serial_number"/>
+                            <field name="device_category"/>
+                            <field name="device_model"/>
+                            <field name="manufacturer"/>
+                            <field name="firmware_version"/>
+                            <field name="sdk_version"/>
+                            <field name="paper_width"/>
+                        </group>
+                        <group string="Store &amp; POS Assignment">
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="branch_id"/>
+                            <field name="pos_config_id"/>
+                            <field name="assigned_terminal_name"/>
+                            <field name="date_registered"/>
+                            <field name="last_modified"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Connectivity &amp; Transport">
+                            <field name="connection_type"/>
+                            <field name="ip_address" invisible="connection_type not in ('lan_tcp', 'builtin_sdk', 'hybrid_local_cloud')"/>
+                            <field name="printer_port" invisible="connection_type != 'lan_tcp'"/>
+                            <field name="cloud_printer_sn" invisible="connection_type not in ('sunmi_cloud', 'hybrid_local_cloud')"/>
+                            <field name="local_comm_supported"/>
+                            <field name="printer_operational_status"/>
+                            <field name="last_heartbeat"/>
+                            <field name="last_successful_connection"/>
+                        </group>
+                        <group string="Cash Drawer &amp; Sensor Verification">
+                            <field name="capability_classification"/>
+                            <field name="cash_drawer_supported"/>
+                            <field name="physical_status_supported"/>
+                            <field name="physical_status_verified"/>
+                            <field name="pin3_open_level"/>
+                            <field name="last_error"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Capability Matrix" name="capabilities">
+                            <field name="capability_ids">
+                                <list editable="bottom">
+                                    <field name="feature_key"/>
+                                    <field name="feature_name"/>
+                                    <field name="vendor_declared"/>
+                                    <field name="hardware_verified"/>
+                                    <field name="status" widget="badge"
+                                           decoration-success="status == 'SUPPORTED'"
+                                           decoration-warning="status == 'UNVERIFIED'"
+                                           decoration-danger="status in ('UNSUPPORTED', 'ERROR')"/>
+                                    <field name="diagnostic_notes"/>
+                                    <field name="last_checked"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Cryptographic Credentials" name="security" groups="powerpos_sunmi_core.group_powerpos_sysadmin">
+                            <group>
+                                <field name="auth_token_hash"/>
+                                <field name="device_secret" password="True"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_powerpos_sunmi_device" model="ir.actions.act_window">
+        <field name="name">Registered Devices</field>
+        <field name="res_model">powerpos.sunmi.device</field>
+        <field name="view_mode">list,kanban,form</field>
+    </record>
+</odoo>

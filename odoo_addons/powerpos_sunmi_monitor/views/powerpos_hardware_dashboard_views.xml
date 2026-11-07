@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_hardware_dashboard_form" model="ir.ui.view">
+        <field name="name">powerpos.hardware.dashboard.form</field>
+        <field name="model">powerpos.hardware.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="PowerPOS Hardware Overview Dashboard" create="0" delete="0">
+                <header>
+                    <button name="action_refresh_dashboard" string="Refresh Live KPIs" type="object" class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                        <field name="branch_id"/>
+                    </group>
+                    <group string="Live Hardware &amp; Cash Drawer KPIs (Verified Telemetry Only)">
+                        <group string="SUNMI Fleet Connectivity">
+                            <field name="kpi_total_registered_devices"/>
+                            <field name="kpi_online_printers"/>
+                            <field name="kpi_offline_printers"/>
+                        </group>
+                        <group string="Cash Drawer Physical States">
+                            <field name="kpi_total_cash_drawers"/>
+                            <field name="kpi_drawers_currently_open"/>
+                            <field name="kpi_drawers_currently_closed"/>
+                            <field name="kpi_drawers_unknown_or_stale"/>
+                        </group>
+                    </group>
+                    <group string="Today's Security &amp; Operational Metrics">
+                        <group>
+                            <field name="kpi_openings_today"/>
+                            <field name="kpi_unmatched_openings_today"/>
+                        </group>
+                        <group>
+                            <field name="kpi_prolonged_open_events_today"/>
+                            <field name="kpi_active_security_alerts"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_powerpos_hardware_dashboard_kanban" model="ir.ui.view">
+        <field name="name">powerpos.hardware.dashboard.kanban</field>
+        <field name="model">powerpos.hardware.dashboard</field>
+        <field name="arch" type="xml">
+            <kanban create="0" delete="0">
+                <field name="name"/>
+                <field name="branch_id"/>
+                <field name="kpi_total_registered_devices"/>
+                <field name="kpi_online_printers"/>
+                <field name="kpi_offline_printers"/>
+                <field name="kpi_total_cash_drawers"/>
+                <field name="kpi_drawers_currently_open"/>
+                <field name="kpi_drawers_currently_closed"/>
+                <field name="kpi_drawers_unknown_or_stale"/>
+                <field name="kpi_openings_today"/>
+                <field name="kpi_unmatched_openings_today"/>
+                <field name="kpi_prolonged_open_events_today"/>
+                <field name="kpi_active_security_alerts"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="p-2">
+                            <h4 class="mb-2"><field name="name"/></h4>
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <span class="text-muted">Registered Devices:</span>
+                                    <strong class="ms-1"><field name="kpi_total_registered_devices"/></strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-success">Online Printers:</span>
+                                    <strong class="ms-1"><field name="kpi_online_printers"/></strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-danger">Drawers OPEN:</span>
+                                    <strong class="ms-1"><field name="kpi_drawers_currently_open"/></strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-success">Drawers CLOSED:</span>
+                                    <strong class="ms-1"><field name="kpi_drawers_currently_closed"/></strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-warning">Unmatched Today:</span>
+                                    <strong class="ms-1"><field name="kpi_unmatched_openings_today"/></strong>
+                                </div>
+                                <div class="col-6">
+                                    <span class="text-danger">Active Alerts:</span>
+                                    <strong class="ms-1"><field name="kpi_active_security_alerts"/></strong>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_powerpos_hardware_overview" model="ir.actions.act_window">
+        <field name="name">Overview</field>
+        <field name="res_model">powerpos.hardware.dashboard</field>
+        <field name="view_mode">kanban,form</field>
+    </record>
+
+    <record id="action_powerpos_sunmi_printers_only" model="ir.actions.act_window">
+        <field name="name">SUNMI Printers</field>
+        <field name="res_model">powerpos.sunmi.device</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="domain">[('device_category', 'in', ('terminal_builtin_printer', 'standalone_cloud_printer', 'usb_external_printer', 'bluetooth_printer'))]</field>
+    </record>
+
+    <record id="action_powerpos_pos_terminals" model="ir.actions.act_window">
+        <field name="name">POS Terminals</field>
+        <field name="res_model">pos.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_powerpos_device_monitoring" model="ir.actions.act_window">
+        <field name="name">Device Monitoring</field>
+        <field name="res_model">powerpos.cashdrawer.device</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_monitoring_enabled': 1}</field>
+    </record>
+
+    <record id="action_powerpos_diagnostics" model="ir.actions.act_window">
+        <field name="name">Diagnostics &amp; Capabilities</field>
+        <field name="res_model">powerpos.device.capability</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

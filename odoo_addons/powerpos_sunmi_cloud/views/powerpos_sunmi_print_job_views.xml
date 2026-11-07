@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_sunmi_print_job_list" model="ir.ui.view">
+        <field name="name">powerpos.sunmi.print.job.list</field>
+        <field name="model">powerpos.sunmi.print.job</field>
+        <field name="arch" type="xml">
+            <list string="Printing History &amp; Queue">
+                <field name="job_uuid"/>
+                <field name="device_id"/>
+                <field name="branch_id"/>
+                <field name="receipt_type"/>
+                <field name="pos_order_id"/>
+                <field name="pos_session_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'printed'"
+                       decoration-info="state in ('submitted', 'accepted')"
+                       decoration-warning="state in ('pending', 'unknown')"
+                       decoration-danger="state == 'failed'"/>
+                <field name="retry_count"/>
+                <field name="submitted_at"/>
+                <field name="completed_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_powerpos_sunmi_print_job_form" model="ir.ui.view">
+        <field name="name">powerpos.sunmi.print.job.form</field>
+        <field name="model">powerpos.sunmi.print.job</field>
+        <field name="arch" type="xml">
+            <form string="SUNMI Print Job">
+                <header>
+                    <button name="action_submit_job" string="Submit / Retry Job" type="object" class="oe_highlight"
+                            invisible="state in ('printed', 'cancelled')"/>
+                    <button name="action_reconcile_ambiguous_job" string="Reconcile via printStatus()" type="object"
+                            invisible="state not in ('unknown', 'submitted', 'accepted')"/>
+                    <button name="action_clear_queue_authorized" string="Clear Hardware Print Queue" type="object"
+                            groups="powerpos_sunmi_core.group_powerpos_supervisor"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,submitted,accepted,printed,failed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Job Metadata">
+                            <field name="job_uuid"/>
+                            <field name="device_id"/>
+                            <field name="branch_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="receipt_type"/>
+                        </group>
+                        <group string="POS Context &amp; Timing">
+                            <field name="pos_order_id"/>
+                            <field name="pos_session_id"/>
+                            <field name="retry_count"/>
+                            <field name="submitted_at"/>
+                            <field name="completed_at"/>
+                        </group>
+                    </group>
+                    <group string="Diagnostics &amp; Payload">
+                        <field name="error_message"/>
+                        <field name="payload_hex"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_powerpos_sunmi_print_job" model="ir.actions.act_window">
+        <field name="name">Printing History</field>
+        <field name="res_model">powerpos.sunmi.print.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

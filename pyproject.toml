@@ -1,0 +1,32 @@
+[project]
+name = "powerpos-sunmi"
+version = "1.0.0"
+description = "PowerPOS SUNMI Printer and Intelligent Cash Drawer Management Platform"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[tool.pyrefly]
+search-path = [
+    ".",
+    "local-bridge",
+    "sensor-gateway",
+    "odoo_addons",
+]
+
+[tool.pyright]
+extraPaths = [
+    ".",
+    "local-bridge",
+    "sensor-gateway",
+    "odoo_addons",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+    ".",
+    "local-bridge",
+    "sensor-gateway",
+    "odoo_addons",
+]
+testpaths = ["tests"]
+

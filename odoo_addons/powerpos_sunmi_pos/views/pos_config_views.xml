@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pos_config_form_powerpos_sunmi" model="ir.ui.view">
+        <field name="name">pos.config.form.powerpos.sunmi</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="PowerPOS SUNMI Printer &amp; Cash Drawer Assignment" name="powerpos_sunmi_group">
+                    <group>
+                        <field name="powerpos_branch_id"/>
+                        <field name="powerpos_printer_id"/>
+                    </group>
+                    <group>
+                        <field name="powerpos_cashdrawer_id"/>
+                        <field name="powerpos_enable_hardware_bar"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

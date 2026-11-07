@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="powerpos_sunmi_pos.PowerPosHardwareStatusWidget">
+        <div class="pp-pos-hw-wrapper d-flex align-items-center ms-2 me-2 position-relative">
+            <!-- Touch-Friendly Status Pill Button -->
+            <button type="button"
+                    class="btn pp-pos-hw-pill d-flex align-items-center gap-2"
+                    t-on-click="toggleDropdown"
+                    title="SUNMI Printer &amp; Cash Drawer Physical Telemetry">
+                <span class="pp-pill-item" t-att-class="printerBadgeClass">
+                    <i class="fa fa-print me-1"/>
+                    <t t-esc="hw.printer.printer_operational_status.toUpperCase()"/>
+                </span>
+                <span class="pp-pill-item" t-att-class="drawerBadgeClass">
+                    <i class="fa fa-inbox me-1"/>
+                    <span>DRAWER: <t t-esc="hw.drawer.physical_state"/></span>
+                    <t t-if="hw.drawer.physical_state === 'OPEN'">
+                        <strong class="ms-1">(<t t-esc="hw.liveOpenSeconds"/>s)</strong>
+                    </t>
+                </span>
+            </button>
+
+            <!-- Dropdown Control & Telemetry Card -->
+            <t t-if="uiState.showDropdown">
+                <div class="pp-pos-hw-dropdown shadow-lg rounded p-3">
+                    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                        <h6 class="m-0 fw-bold">SUNMI Hardware &amp; Cash Drawer Monitor</h6>
+                        <button type="button" class="btn-close" t-on-click="toggleDropdown"/>
+                    </div>
+
+                    <div class="pp-telemetry-grid mb-3 small">
+                        <div><strong>Printer:</strong> <t t-esc="hw.printer.name"/> (<t t-esc="hw.printer.device_status"/>)</div>
+                        <div><strong>Printer Status:</strong> <t t-esc="hw.printer.printer_operational_status"/></div>
+                        <div><strong>Cash Drawer:</strong> <t t-esc="hw.drawer.name"/></div>
+                        <div>
+                            <strong>Verified Physical State:</strong>
+                            <span class="ms-1 fw-bold" t-att-class="drawerBadgeClass">
+                                <t t-esc="hw.drawer.physical_state"/>
+                            </span>
+                        </div>
+                        <div><strong>Sensor Capability:</strong> <t t-esc="hw.drawer.physical_status_capability"/></div>
+                        <div><strong>Last Verified Reading:</strong> <t t-esc="hw.drawer.last_sensor_timestamp || 'No reading yet'"/></div>
+                        <t t-if="hw.drawer.physical_state === 'OPEN'">
+                            <div class="text-danger fw-bold mt-1">
+                                Live Open Duration: <t t-esc="hw.liveOpenSeconds"/>s
+                                (Alert at <t t-esc="hw.drawer.alert_prolonged_open_seconds"/>s)
+                            </div>
+                        </t>
+                        <t t-if="hw.offlineQueueCount &gt; 0">
+                            <div class="text-warning fw-bold mt-1">
+                                Offline Queued Events: <t t-esc="hw.offlineQueueCount"/>
+                            </div>
+                        </t>
+                    </div>
+
+                    <!-- Touch-Friendly Action Controls -->
+                    <div class="d-grid gap-2">
+                        <button type="button" class="btn btn-primary btn-sm" t-on-click="onOpenDrawerStandard">
+                            <i class="fa fa-unlock me-1"/> Open Drawer (Authorized)
+                        </button>
+                        <button type="button" class="btn btn-warning btn-sm" t-on-click="openSupervisorModal">
+                            <i class="fa fa-key me-1"/> Supervisor No-Sale Opening
+                        </button>
+                        <div class="d-flex gap-1">
+                            <button type="button" class="btn btn-outline-secondary btn-sm flex-fill" t-on-click="onTestDrawerPulse">
+                                Test Drawer
+                            </button>
+                            <button type="button" class="btn btn-outline-info btn-sm flex-fill" t-on-click="openRecentActivityModal">
+                                Recent Activity
+                            </button>
+                            <button type="button" class="btn btn-outline-dark btn-sm flex-fill" t-on-click="openDiagnosticsModal">
+                                Diagnostics
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+            <!-- Supervisor Override Modal -->
+            <t t-if="uiState.activeDialog === 'supervisor'">
+                <div class="pp-pos-modal-backdrop">
+                    <div class="pp-pos-modal-card p-3 rounded shadow-lg">
+                        <h6 class="fw-bold border-bottom pb-2">Supervisor No-Sale Drawer Override</h6>
+                        <div class="mb-2">
+                            <label class="form-label small">Supervisor PIN</label>
+                            <input type="password" class="form-control" t-model="uiState.supervisorPin" placeholder="Enter Supervisor PIN"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Justification / Reason (Required)</label>
+                            <input type="text" class="form-control" t-model="uiState.supervisorReason" placeholder="e.g. Change request / Bill verification"/>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-secondary btn-sm" t-on-click="closeModal">Cancel</button>
+                            <button type="button" class="btn btn-warning btn-sm" t-on-click="submitSupervisorOverride">Authorize &amp; Kick Drawer</button>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+            <!-- Recent Drawer Activity Modal -->
+            <t t-if="uiState.activeDialog === 'recent_activity'">
+                <div class="pp-pos-modal-backdrop">
+                    <div class="pp-pos-modal-card p-3 rounded shadow-lg">
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                            <h6 class="m-0 fw-bold">Recent Cash Drawer Activity</h6>
+                            <button type="button" class="btn-close" t-on-click="closeModal"/>
+                        </div>
+                        <div class="pp-activity-list small">
+                            <t t-foreach="hw.recentEvents" t-as="ev" t-key="ev.event_uuid">
+                                <div class="border-bottom py-1 d-flex justify-content-between">
+                                    <div>
+                                        <strong><t t-esc="ev.event_type"/></strong>
+                                        <span class="text-muted ms-1">(<t t-esc="ev.opening_reason"/>)</span>
+                                        <div class="text-muted"><t t-esc="ev.timestamp"/> | <t t-esc="ev.cashier"/></div>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-secondary"><t t-esc="ev.new_physical_state"/></span>
+                                        <t t-if="ev.opening_duration &gt; 0">
+                                            <div><t t-esc="ev.opening_duration"/>s</div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </t>
+
+            <!-- Hardware Diagnostics Modal -->
+            <t t-if="uiState.activeDialog === 'diagnostics'">
+                <div class="pp-pos-modal-backdrop">
+                    <div class="pp-pos-modal-card p-3 rounded shadow-lg">
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                            <h6 class="m-0 fw-bold">Hardware &amp; Sensor Diagnostics</h6>
+                            <button type="button" class="btn-close" t-on-click="closeModal"/>
+                        </div>
+                        <div class="small">
+                            <p class="mb-1"><strong>Android Bridge Detected:</strong> <t t-esc="window.PowerPosAndroidBridge ? 'YES (SUNMI Native Bridge)' : 'NO (Browser Mode)'"/></p>
+                            <p class="mb-1"><strong>Printer Paper Width:</strong> <t t-esc="hw.printer.paper_width"/> mm</p>
+                            <p class="mb-1"><strong>Drawer Sensor Type:</strong> <t t-esc="hw.drawer.sensor_type || 'rj11_pin3_microswitch'"/></p>
+                            <p class="mb-1"><strong>Sensor Capability:</strong> <t t-esc="hw.drawer.physical_status_capability"/></p>
+                            <p class="mb-0 text-muted">
+                                Note: Physical OPEN/CLOSED state is strictly derived from hardware sensor telemetry and never fabricated from software kick commands.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </t>
+
+    <t t-inherit="point_of_sale.Navbar" t-inherit-mode="extension">
+        <xpath expr="//div[hasclass('pos-rightheader')]" position="inside">
+            <PowerPosHardwareStatusWidget t-if="pos.config.powerpos_enable_hardware_bar"/>
+        </xpath>
+    </t>
+
+</templates>

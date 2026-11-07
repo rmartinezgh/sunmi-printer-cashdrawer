@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_cashdrawer_authorization_list" model="ir.ui.view">
+        <field name="name">powerpos.cashdrawer.authorization.list</field>
+        <field name="model">powerpos.cashdrawer.authorization</field>
+        <field name="arch" type="xml">
+            <list string="Drawer Opening Authorizations">
+                <field name="auth_uuid"/>
+                <field name="drawer_id"/>
+                <field name="branch_id"/>
+                <field name="reason"/>
+                <field name="user_id"/>
+                <field name="supervisor_id"/>
+                <field name="pos_session_id"/>
+                <field name="pos_order_id"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'matched_physical_open'"
+                       decoration-info="state in ('authorized', 'executed')"
+                       decoration-warning="state == 'expired'"
+                       decoration-danger="state == 'rejected'"/>
+                <field name="requested_at"/>
+                <field name="expires_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_powerpos_cashdrawer_authorization_form" model="ir.ui.view">
+        <field name="name">powerpos.cashdrawer.authorization.form</field>
+        <field name="model">powerpos.cashdrawer.authorization</field>
+        <field name="arch" type="xml">
+            <form string="Cash Drawer Authorization Token">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Authorization Context">
+                            <field name="auth_uuid"/>
+                            <field name="idempotency_key"/>
+                            <field name="drawer_id"/>
+                            <field name="printer_id"/>
+                            <field name="branch_id"/>
+                            <field name="reason"/>
+                            <field name="notes"/>
+                        </group>
+                        <group string="Operator &amp; Correlation">
+                            <field name="user_id"/>
+                            <field name="cashier_id"/>
+                            <field name="supervisor_id"/>
+                            <field name="pos_session_id"/>
+                            <field name="pos_order_id"/>
+                            <field name="requested_at"/>
+                            <field name="expires_at"/>
+                            <field name="matched_event_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_powerpos_cashdrawer_authorization" model="ir.actions.act_window">
+        <field name="name">Drawer Opening Authorizations</field>
+        <field name="res_model">powerpos.cashdrawer.authorization</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

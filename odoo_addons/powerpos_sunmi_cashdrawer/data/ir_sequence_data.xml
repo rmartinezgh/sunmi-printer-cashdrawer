@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_powerpos_cashdrawer_device" model="ir.sequence">
+            <field name="name">PowerPOS Cash Drawer Sequence</field>
+            <field name="code">powerpos.cashdrawer.device</field>
+            <field name="prefix">CD-</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="ir_cron_powerpos_drawer_staleness_watchdog" model="ir.cron">
+            <field name="name">PowerPOS: Cash Drawer Sensor Staleness &amp; Prolonged Open Watchdog</field>
+            <field name="model_id" ref="model_powerpos_cashdrawer_device"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_evaluate_drawer_staleness()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">minutes</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>

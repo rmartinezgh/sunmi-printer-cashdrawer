@@ -1,0 +1,18 @@
+{
+  "include": [
+    "local-bridge",
+    "sensor-gateway",
+    "odoo_addons",
+    "tests",
+    "scripts"
+  ],
+  "extraPaths": [
+    ".",
+    "local-bridge",
+    "sensor-gateway",
+    "odoo_addons"
+  ],
+  "pythonVersion": "3.14",
+  "typeCheckingMode": "basic"
+}
+

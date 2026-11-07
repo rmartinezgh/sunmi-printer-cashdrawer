@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_powerpos_cashdrawer_device_list" model="ir.ui.view">
+        <field name="name">powerpos.cashdrawer.device.list</field>
+        <field name="model">powerpos.cashdrawer.device</field>
+        <field name="arch" type="xml">
+            <list string="Cash Drawers">
+                <field name="drawer_code"/>
+                <field name="name"/>
+                <field name="branch_id"/>
+                <field name="pos_config_id"/>
+                <field name="printer_device_id"/>
+                <field name="sensor_type"/>
+                <field name="physical_status_capability" widget="badge"
+                       decoration-success="physical_status_capability == 'SUPPORTED'"
+                       decoration-warning="physical_status_capability == 'UNVERIFIED'"
+                       decoration-danger="physical_status_capability in ('UNSUPPORTED', 'ERROR')"/>
+                <field name="physical_state" widget="badge"
+                       decoration-danger="physical_state in ('OPEN', 'ERROR', 'OFFLINE')"
+                       decoration-success="physical_state == 'CLOSED'"
+                       decoration-warning="physical_state in ('UNKNOWN', 'STALE', 'UNSUPPORTED')"/>
+                <field name="current_open_duration_seconds"/>
+                <field name="last_sensor_timestamp"/>
+                <field name="sdk_open_counter"/>
+                <field name="device_status" widget="badge"
+                       decoration-success="device_status == 'online'"
+                       decoration-warning="device_status == 'degraded'"
+                       decoration-danger="device_status in ('offline', 'error')"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_powerpos_cashdrawer_device_form" model="ir.ui.view">
+        <field name="name">powerpos.cashdrawer.device.form</field>
+        <field name="model">powerpos.cashdrawer.device</field>
+        <field name="arch" type="xml">
+            <form string="Cash Drawer Hardware Asset">
+                <header>
+                    <field name="physical_state" widget="statusbar" statusbar_visible="CLOSED,OPEN,UNKNOWN,STALE,OFFLINE,UNSUPPORTED"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. Register 1 Cash Drawer"/></h1>
+                        <h3><field name="drawer_code" readonly="1"/></h3>
+                    </div>
+                    <group>
+                        <group string="Hardware Assignment">
+                            <field name="drawer_model"/>
+                            <field name="printer_device_id"/>
+                            <field name="pos_config_id"/>
+                            <field name="branch_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="device_status"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Physical Sensor &amp; Live State">
+                            <field name="sensor_type"/>
+                            <field name="monitoring_method"/>
+                            <field name="physical_status_capability"/>
+                            <field name="last_verified_state"/>
+                            <field name="last_sensor_timestamp"/>
+                            <field name="last_heartbeat"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Open Duration &amp; Session Telemetry">
+                            <field name="current_pos_session_id"/>
+                            <field name="current_cashier_id"/>
+                            <field name="open_since_timestamp"/>
+                            <field name="current_open_duration_seconds"/>
+                            <field name="last_closed_duration_seconds"/>
+                            <field name="is_current_open_incomplete"/>
+                            <field name="sdk_open_counter"/>
+                        </group>
+                        <group string="Watchdog &amp; Threshold Configuration">
+                            <field name="monitoring_enabled"/>
+                            <field name="polling_interval_ms"/>
+                            <field name="staleness_timeout_seconds"/>
+                            <field name="alert_prolonged_open_seconds"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_powerpos_cashdrawer_device" model="ir.actions.act_window">
+        <field name="name">Cash Drawers</field>
+        <field name="res_model">powerpos.cashdrawer.device</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>
