@@ -17,8 +17,7 @@ PowerPOS SUNMI Cash Drawer (Module D & E)
     'license': 'OEEL-1',
     'depends': ['powerpos_sunmi_core', 'powerpos_sunmi_cloud', 'hr'],
     'data': [
-        'security/security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/ir_sequence_data.xml',
         'views/powerpos_cashdrawer_device_views.xml',
         'views/powerpos_cashdrawer_policy_views.xml',

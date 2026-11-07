@@ -1,0 +1,13 @@
+id,name,model_id,group_id/id,operation,domain
+access_monitoring_rule_cashier,powerpos.monitoring.rule.cashier,powerpos.monitoring.rule,powerpos_sunmi_core.group_powerpos_cashier,r,"[('company_id', 'in', company_ids)]"
+access_monitoring_rule_supervisor,powerpos.monitoring.rule.supervisor,powerpos.monitoring.rule,powerpos_sunmi_core.group_powerpos_supervisor,r,"[('company_id', 'in', company_ids)]"
+access_monitoring_rule_manager,powerpos.monitoring.rule.manager,powerpos.monitoring.rule,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_monitoring_rule_sysadmin,powerpos.monitoring.rule.sysadmin,powerpos.monitoring.rule,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+access_security_alert_cashier,powerpos.security.alert.cashier,powerpos.security.alert,powerpos_sunmi_core.group_powerpos_cashier,cr,"[('company_id', 'in', company_ids)]"
+access_security_alert_supervisor,powerpos.security.alert.supervisor,powerpos.security.alert,powerpos_sunmi_core.group_powerpos_supervisor,cru,"[('company_id', 'in', company_ids)]"
+access_security_alert_manager,powerpos.security.alert.manager,powerpos.security.alert,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_security_alert_sysadmin,powerpos.security.alert.sysadmin,powerpos.security.alert,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+access_hardware_dashboard_cashier,powerpos.hardware.dashboard.cashier,powerpos.hardware.dashboard,powerpos_sunmi_core.group_powerpos_cashier,r,"[('company_id', 'in', company_ids)]"
+access_hardware_dashboard_supervisor,powerpos.hardware.dashboard.supervisor,powerpos.hardware.dashboard,powerpos_sunmi_core.group_powerpos_supervisor,cru,"[('company_id', 'in', company_ids)]"
+access_hardware_dashboard_manager,powerpos.hardware.dashboard.manager,powerpos.hardware.dashboard,powerpos_sunmi_core.group_powerpos_store_manager,crud,"[('company_id', 'in', company_ids)]"
+access_hardware_dashboard_sysadmin,powerpos.hardware.dashboard.sysadmin,powerpos.hardware.dashboard,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"

@@ -16,8 +16,7 @@ PowerPOS SUNMI Audit (Module F)
     'license': 'OEEL-1',
     'depends': ['powerpos_sunmi_core', 'powerpos_sunmi_cashdrawer'],
     'data': [
-        'security/security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/powerpos_cashdrawer_event_views.xml',
     ],
     'installable': True,

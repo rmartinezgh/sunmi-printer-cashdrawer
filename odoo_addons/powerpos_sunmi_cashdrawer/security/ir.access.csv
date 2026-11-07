@@ -1,0 +1,13 @@
+id,name,model_id,group_id/id,operation,domain
+access_cashdrawer_device_cashier,powerpos.cashdrawer.device.cashier,powerpos.cashdrawer.device,powerpos_sunmi_core.group_powerpos_cashier,r,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_device_supervisor,powerpos.cashdrawer.device.supervisor,powerpos.cashdrawer.device,powerpos_sunmi_core.group_powerpos_supervisor,ru,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_device_manager,powerpos.cashdrawer.device.manager,powerpos.cashdrawer.device,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_device_sysadmin,powerpos.cashdrawer.device.sysadmin,powerpos.cashdrawer.device,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_policy_cashier,powerpos.cashdrawer.policy.cashier,powerpos.cashdrawer.policy,powerpos_sunmi_core.group_powerpos_cashier,r,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_policy_supervisor,powerpos.cashdrawer.policy.supervisor,powerpos.cashdrawer.policy,powerpos_sunmi_core.group_powerpos_supervisor,r,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_policy_manager,powerpos.cashdrawer.policy.manager,powerpos.cashdrawer.policy,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_policy_sysadmin,powerpos.cashdrawer.policy.sysadmin,powerpos.cashdrawer.policy,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_auth_cashier,powerpos.cashdrawer.authorization.cashier,powerpos.cashdrawer.authorization,powerpos_sunmi_core.group_powerpos_cashier,cru,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_auth_supervisor,powerpos.cashdrawer.authorization.supervisor,powerpos.cashdrawer.authorization,powerpos_sunmi_core.group_powerpos_supervisor,cru,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_auth_manager,powerpos.cashdrawer.authorization.manager,powerpos.cashdrawer.authorization,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_auth_sysadmin,powerpos.cashdrawer.authorization.sysadmin,powerpos.cashdrawer.authorization,powerpos_sunmi_core.group_powerpos_sysadmin,cru,"[('company_id', 'in', company_ids)]"

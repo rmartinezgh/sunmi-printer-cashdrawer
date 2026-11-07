@@ -17,7 +17,7 @@ PowerPOS SUNMI Core (Module A)
     'depends': ['base', 'mail', 'point_of_sale', 'bus'],
     'data': [
         'security/security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/ir_sequence_data.xml',
         'views/powerpos_branch_views.xml',
         'views/powerpos_sunmi_device_views.xml',

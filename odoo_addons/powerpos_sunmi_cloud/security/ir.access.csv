@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_sunmi_cloud_account_manager,powerpos.sunmi.cloud.account.manager,powerpos.sunmi.cloud.account,powerpos_sunmi_core.group_powerpos_store_manager,r,"[('company_id', 'in', company_ids)]"
+access_sunmi_cloud_account_sysadmin,powerpos.sunmi.cloud.account.sysadmin,powerpos.sunmi.cloud.account,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+access_sunmi_print_job_cashier,powerpos.sunmi.print.job.cashier,powerpos.sunmi.print.job,powerpos_sunmi_core.group_powerpos_cashier,cru,"[('company_id', 'in', company_ids)]"
+access_sunmi_print_job_supervisor,powerpos.sunmi.print.job.supervisor,powerpos.sunmi.print.job,powerpos_sunmi_core.group_powerpos_supervisor,cru,"[('company_id', 'in', company_ids)]"
+access_sunmi_print_job_manager,powerpos.sunmi.print.job.manager,powerpos.sunmi.print.job,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_sunmi_print_job_sysadmin,powerpos.sunmi.print.job.sysadmin,powerpos.sunmi.print.job,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+access_sunmi_receipt_template_cashier,powerpos.sunmi.receipt.template.cashier,powerpos.sunmi.receipt.template,powerpos_sunmi_core.group_powerpos_cashier,r,"[('company_id', 'in', company_ids)]"
+access_sunmi_receipt_template_manager,powerpos.sunmi.receipt.template.manager,powerpos.sunmi.receipt.template,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_sunmi_receipt_template_sysadmin,powerpos.sunmi.receipt.template.sysadmin,powerpos.sunmi.receipt.template,powerpos_sunmi_core.group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"

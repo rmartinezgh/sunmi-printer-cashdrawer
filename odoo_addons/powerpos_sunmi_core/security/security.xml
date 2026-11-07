@@ -46,28 +46,4 @@
             <field name="comment">Full administrative access to SUNMI Cloud credentials, HMAC keys, hardware registration, and cryptographic audit verification.</field>
         </record>
     </data>
-
-    <data noupdate="1">
-        <!-- Multi-company isolation rules -->
-        <record id="rule_powerpos_branch_multi_company" model="ir.rule">
-            <field name="name">PowerPOS Branch: Multi-Company Rule</field>
-            <field name="model_id" ref="model_powerpos_branch"/>
-            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
-            <field name="global" eval="True"/>
-        </record>
-
-        <record id="rule_powerpos_sunmi_device_multi_company" model="ir.rule">
-            <field name="name">PowerPOS SUNMI Device: Multi-Company Rule</field>
-            <field name="model_id" ref="model_powerpos_sunmi_device"/>
-            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
-            <field name="global" eval="True"/>
-        </record>
-
-        <record id="rule_powerpos_device_capability_multi_company" model="ir.rule">
-            <field name="name">PowerPOS Device Capability: Multi-Company Rule</field>
-            <field name="model_id" ref="model_powerpos_device_capability"/>
-            <field name="domain_force">[('device_id.company_id', 'in', company_ids)]</field>
-            <field name="global" eval="True"/>
-        </record>
-    </data>
 </odoo>

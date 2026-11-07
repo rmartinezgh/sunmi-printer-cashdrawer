@@ -84,6 +84,29 @@ class TestEndToEndPlatformIntegrity(unittest.TestCase):
                     f"Legacy field 'category_id' on res.groups in {xml_file}; use 'privilege_id' for Odoo 20.",
                 )
                 self.assertIn("privilege_id", field_names)
+            # Odoo 20 check: ir.rule was removed in Odoo 20 and unified into ir.access
+            ir_rules = tree.getroot().findall(".//record[@model='ir.rule']")
+            self.assertEqual(
+                len(ir_rules),
+                0,
+                f"Legacy model 'ir.rule' found in {xml_file}; use unified 'security/ir.access.csv' for Odoo 20.",
+            )
+
+        legacy_acls = list((ROOT_DIR / "odoo_addons").rglob("ir.model.access.csv"))
+        self.assertEqual(
+            len(legacy_acls),
+            0,
+            f"Legacy 'ir.model.access.csv' found: {legacy_acls}; use 'ir.access.csv' for Odoo 20.",
+        )
+        access_files = list((ROOT_DIR / "odoo_addons").rglob("ir.access.csv"))
+        self.assertEqual(len(access_files), 6)
+        for access_file in access_files:
+            lines = [line.strip() for line in access_file.read_text(encoding="utf-8").splitlines() if line.strip()]
+            self.assertEqual(
+                lines[0],
+                "id,name,model_id,group_id/id,operation,domain",
+                f"Invalid Odoo 20 ir.access.csv header in {access_file}",
+            )
 
     def test_no_sunmi_app_key_leaked_in_pos_frontend_assets(self) -> None:
         pos_static = ROOT_DIR / "odoo_addons" / "powerpos_sunmi_pos" / "static"

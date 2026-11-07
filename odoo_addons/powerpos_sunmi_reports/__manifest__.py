@@ -27,7 +27,7 @@ Implements all 8 enterprise hardware and security audit reports with QWeb PDF, C
         'powerpos_sunmi_monitor',
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'report/powerpos_report_actions.xml',
         'report/powerpos_report_templates.xml',
         'wizards/powerpos_report_wizard_views.xml',

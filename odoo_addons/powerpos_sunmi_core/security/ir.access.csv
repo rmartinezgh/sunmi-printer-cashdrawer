@@ -1,0 +1,14 @@
+id,name,model_id,group_id/id,operation,domain
+access_powerpos_branch_cashier,powerpos.branch.cashier,powerpos.branch,group_powerpos_cashier,r,"[('company_id', 'in', company_ids)]"
+access_powerpos_branch_supervisor,powerpos.branch.supervisor,powerpos.branch,group_powerpos_supervisor,r,"[('company_id', 'in', company_ids)]"
+access_powerpos_branch_manager,powerpos.branch.manager,powerpos.branch,group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_powerpos_branch_sysadmin,powerpos.branch.sysadmin,powerpos.branch,group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+access_powerpos_sunmi_device_cashier,powerpos.sunmi.device.cashier,powerpos.sunmi.device,group_powerpos_cashier,r,"[('company_id', 'in', company_ids)]"
+access_powerpos_sunmi_device_supervisor,powerpos.sunmi.device.supervisor,powerpos.sunmi.device,group_powerpos_supervisor,ru,"[('company_id', 'in', company_ids)]"
+access_powerpos_sunmi_device_manager,powerpos.sunmi.device.manager,powerpos.sunmi.device,group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_powerpos_sunmi_device_sysadmin,powerpos.sunmi.device.sysadmin,powerpos.sunmi.device,group_powerpos_sysadmin,crud,"[('company_id', 'in', company_ids)]"
+access_powerpos_device_capability_cashier,powerpos.device.capability.cashier,powerpos.device.capability,group_powerpos_cashier,r,"[('device_id.company_id', 'in', company_ids)]"
+access_powerpos_device_capability_supervisor,powerpos.device.capability.supervisor,powerpos.device.capability,group_powerpos_supervisor,cru,"[('device_id.company_id', 'in', company_ids)]"
+access_powerpos_device_capability_manager,powerpos.device.capability.manager,powerpos.device.capability,group_powerpos_store_manager,crud,"[('device_id.company_id', 'in', company_ids)]"
+access_powerpos_device_capability_sysadmin,powerpos.device.capability.sysadmin,powerpos.device.capability,group_powerpos_sysadmin,crud,"[('device_id.company_id', 'in', company_ids)]"
+access_powerpos_calibration_wizard_supervisor,powerpos.hardware.calibration.wizard.supervisor,powerpos.hardware.calibration.wizard,group_powerpos_supervisor,crud,

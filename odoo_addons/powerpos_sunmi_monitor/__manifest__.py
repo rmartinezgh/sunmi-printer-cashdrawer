@@ -21,8 +21,7 @@ PowerPOS SUNMI Monitor (Module G & J)
         'powerpos_sunmi_audit',
     ],
     'data': [
-        'security/security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/monitoring_rule_data.xml',
         'views/powerpos_monitoring_rule_views.xml',
         'views/powerpos_security_alert_views.xml',

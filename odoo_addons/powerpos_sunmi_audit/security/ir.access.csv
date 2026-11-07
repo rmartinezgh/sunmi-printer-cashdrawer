@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_cashdrawer_event_cashier,powerpos.cashdrawer.event.cashier,powerpos.cashdrawer.event,powerpos_sunmi_core.group_powerpos_cashier,cr,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_event_supervisor,powerpos.cashdrawer.event.supervisor,powerpos.cashdrawer.event,powerpos_sunmi_core.group_powerpos_supervisor,cru,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_event_manager,powerpos.cashdrawer.event.manager,powerpos.cashdrawer.event,powerpos_sunmi_core.group_powerpos_store_manager,cru,"[('company_id', 'in', company_ids)]"
+access_cashdrawer_event_sysadmin,powerpos.cashdrawer.event.sysadmin,powerpos.cashdrawer.event,powerpos_sunmi_core.group_powerpos_sysadmin,cru,"[('company_id', 'in', company_ids)]"

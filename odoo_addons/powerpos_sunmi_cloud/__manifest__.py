@@ -16,8 +16,7 @@ PowerPOS SUNMI Cloud (Module B)
     'license': 'OEEL-1',
     'depends': ['powerpos_sunmi_core'],
     'data': [
-        'security/security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/receipt_template_data.xml',
         'views/powerpos_sunmi_cloud_account_views.xml',
         'views/powerpos_sunmi_print_job_views.xml',
