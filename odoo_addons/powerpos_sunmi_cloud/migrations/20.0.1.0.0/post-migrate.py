@@ -16,3 +16,4 @@ def migrate(cr, version):
         ON powerpos_sunmi_print_job (job_uuid)
         """
     )
+

@@ -19,3 +19,4 @@ def migrate(cr, version):
           AND physical_state IN ('OPEN', 'CLOSED')
         """
     )
+

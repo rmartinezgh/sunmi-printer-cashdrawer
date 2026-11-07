@@ -72,9 +72,18 @@ class TestEndToEndPlatformIntegrity(unittest.TestCase):
         self.assertGreater(len(xml_files), 10)
         for xml_file in xml_files:
             try:
-                ET.parse(xml_file)
+                tree = ET.parse(xml_file)
             except ET.ParseError as exc:
                 self.fail(f"XML parse error in {xml_file}: {exc}")
+            # Odoo 20 check: res.groups must use privilege_id rather than legacy category_id
+            for rec in tree.getroot().findall(".//record[@model='res.groups']"):
+                field_names = [f.attrib.get("name") for f in rec.findall("field")]
+                self.assertNotIn(
+                    "category_id",
+                    field_names,
+                    f"Legacy field 'category_id' on res.groups in {xml_file}; use 'privilege_id' for Odoo 20.",
+                )
+                self.assertIn("privilege_id", field_names)
 
     def test_no_sunmi_app_key_leaked_in_pos_frontend_assets(self) -> None:
         pos_static = ROOT_DIR / "odoo_addons" / "powerpos_sunmi_pos" / "static"

@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="view_powerpos_cashdrawer_device_search" model="ir.ui.view">
+        <field name="name">powerpos.cashdrawer.device.search</field>
+        <field name="model">powerpos.cashdrawer.device</field>
+        <field name="arch" type="xml">
+            <search string="Search Cash Drawers">
+                <field name="name"/>
+                <field name="drawer_code"/>
+                <field name="branch_id"/>
+                <field name="pos_config_id"/>
+                <field name="printer_device_id"/>
+                <filter string="Monitoring Enabled" name="monitoring_enabled" domain="[('monitoring_enabled', '=', True)]"/>
+                <filter string="Physically OPEN" name="filter_open" domain="[('physical_state', '=', 'OPEN')]"/>
+                <filter string="Physically CLOSED" name="filter_closed" domain="[('physical_state', '=', 'CLOSED')]"/>
+                <filter string="Offline / Error / Stale" name="filter_fault" domain="[('physical_state', 'in', ('OFFLINE', 'ERROR', 'STALE'))]"/>
+            </search>
+        </field>
+    </record>
+
     <record id="view_powerpos_cashdrawer_device_list" model="ir.ui.view">
         <field name="name">powerpos.cashdrawer.device.list</field>
         <field name="model">powerpos.cashdrawer.device</field>

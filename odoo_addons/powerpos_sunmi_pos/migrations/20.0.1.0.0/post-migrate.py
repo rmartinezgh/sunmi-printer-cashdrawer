@@ -9,3 +9,4 @@ def migrate(cr, version):
     if not version:
         return
     _logger.info("Upgrading powerpos_sunmi_pos from %s to 20.0.1.0.0", version)
+

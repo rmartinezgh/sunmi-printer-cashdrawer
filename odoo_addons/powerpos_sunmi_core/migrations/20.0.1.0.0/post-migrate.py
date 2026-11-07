@@ -18,3 +18,4 @@ def migrate(cr, version):
           AND physical_status_verified IS TRUE
         """
     )
+

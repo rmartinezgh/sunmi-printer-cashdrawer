@@ -15,3 +15,4 @@ def migrate(cr, version):
         ON powerpos_cashdrawer_event (event_uuid)
         """
     )
+
