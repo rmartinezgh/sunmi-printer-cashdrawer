@@ -163,6 +163,15 @@ class TestEndToEndPlatformIntegrity(unittest.TestCase):
                 self.assertNotIn("SUNMI_SUPER_SECRET", content)
                 self.assertNotIn("app_key", content.lower())
 
+    def test_no_obsolete_ir_actions_report_fields(self) -> None:
+        for xml_file in (ROOT_DIR / "odoo_addons").rglob("*.xml"):
+            content = xml_file.read_text(encoding="utf-8")
+            self.assertNotIn(
+                'name="report_file"',
+                content,
+                f"Obsolete 'report_file' field found in {xml_file}; Odoo 20 only uses 'report_name'.",
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

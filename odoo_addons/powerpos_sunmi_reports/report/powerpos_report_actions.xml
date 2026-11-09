@@ -5,7 +5,6 @@
         <field name="model">powerpos.hardware.report.wizard</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">powerpos_sunmi_reports.report_powerpos_hardware_doc</field>
-        <field name="report_file">powerpos_sunmi_reports.report_powerpos_hardware_doc</field>
         <field name="print_report_name">'PowerPOS_%s' % (object.report_type)</field>
     </record>
 </odoo>
